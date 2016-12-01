@@ -18,22 +18,16 @@ Here's how to start:
  6. Install integration requirements
     - `sudo python setup.py install`
 
-2. **Set up your Mattermost outgoing webhooks**
- 1. Log in to your Mattermost account. Click the three dot menu at the top of the left-hand side and go to **Account Settings** > **Integrations** > **Outgoing Webhooks**
- 2. Under *Add a new outgoing webhook*, leave the *Channel* unselected and enter `gif:` into *Trigger Words*. You may select a channel if you only want this integration to be available in a specified channel
- 3. Paste your Web Server domain into *Callback URLs*, making sure to add `http://` to the beginning and `/new_post` to the end so it looks similar to `http://<your-web-server-domain>/new_post` and click **Add**
- 4. Copy the *Token* from your newly created webhook that appears under the *Existing outgoing webhooks* section
-
-3. **Set up your Mattermost slash command**
- 1. Log in to your Mattermost account. Click the three dot menu at the top of the left-hand side and go to **Account Settings** > **Integrations** > **Slash Commands**
- 2. Under *Add a new command*, enter `/gif` into **Command Trigger Word**
- 3. Paste your Web Server domain into *Callback URLs*, making sure to add `http://` to the beginning
+2. **Set up your Mattermost slash command**
+ 1. Log in to your Mattermost account. Click the three dot menu at the top of the left-hand side and go to **Integrations** > **Slash Commands**
+ 2. Under *Add a new command*, enter `gif` into **Command Trigger Word**
+ 3. Paste your Web Server domain into *Callback URLs*, making sure to add `http://` to the beginning and `/new_post` to the end so it looks similar to `http://<your-web-server-domain>:<MATTERMOST_GIPHY_PORT>/new_post` and click **Add**
  4. Select `POST` method
- 5. (optional) Choose a username and icon url
+ 5. (optional) Choose a username and icon url (more details [here](https://docs.mattermost.com/developer/slash-commands.html#set-up-a-custom-command))
  6. (optional) Check the autocomplete checkbox, add `[KEYWORD]` as the hint, `Returns a GIF from Giphy based on the keyword` as the description and `Get a GIF from Giphy` as the descriptive label
  7. Copy the *Token* from your newly created slash command that appears under the *Existing commands* section
 
-4. **Run the server with the correct configuration**
+3. **Run the server with the correct configuration**
  1. Back on SSH or your terminal, add the following lines to your `~/.bash_profile`
     - `export MATTERMOST_GIPHY_TOKEN=<your-token-here>` This is the token you copied in the last section
     - `export MATTERMOST_GIPHY_HOST=<your-host>` or `export HOST=<your-host>` The host you want the integration (defaults to 0.0.0.0)
