@@ -23,3 +23,6 @@ Many web server options will work, below we provide instructions for [**Heroku**
 
 ### Linux/Ubuntu 14.04 Web Server Install
 [**Here**](LINUX.md)
+
+### Docker install
+[**Here**](DOCKER.md)
