@@ -1,4 +1,4 @@
-FROM python:2.7
+FROM python:2.7-alpine
 
 MAINTAINER Kyâne PICHOU kyane@kyane.fr
 
