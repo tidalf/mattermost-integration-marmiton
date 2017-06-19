@@ -45,7 +45,7 @@ def new_post():
         if not 'token' in data:
             raise Exception('Missing necessary token in the post data')
 
-        if MATTERMOST_GIPHY_TOKEN.find(data['token']) == -1:
+        if data['token'] not in MATTERMOST_GIPHY_TOKEN:
             raise Exception('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
 
         # NOTE: support the slash command
