@@ -23,7 +23,7 @@ Here's how to start:
 
 3. **Run the integration with Docker**  
   Back on your server, you only need to run your container, with some environnement variables
-    - `MATTERMOST_GIPHY_TOKEN=<your-token-here>` : this is the token you copied in the last section
+    - `MATTERMOST_GIPHY_TOKEN=<your-token-here>` : this is the token you copied in the last section (you can specify multiple tokens which are separated by a colon)
     - `MATTERMOST_GIPHY_HOST=<your-host>`  : the host you want the integration (defaults to 0.0.0.0)
     - `MATTERMOST_GIPHY_PORT=<your-port-number>` : the port number you want the integration to listen on (defaults to 5000)
     - `GIPHY_API_KEY=<giphy-api-key>` : key to use for Giphy API. Default public one is `dc6zaTOxFJmzC`

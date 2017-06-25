@@ -16,5 +16,6 @@ SCHEME = os.environ.get('SCHEME', 'https')
 # the is a public beta key from giphy api
 GIPHY_API_KEY = os.environ.get('GIPHY_API_KEY', 'dc6zaTOxFJmzC')
 
-# the Mattemost token generated when you created your outgoing webhook
-MATTERMOST_GIPHY_TOKEN = os.environ.get('MATTERMOST_GIPHY_TOKEN', None)
+# the Mattermost token or tokens generated when you created your outgoing webhook
+# multiple tokens needs to be separated by a colon
+MATTERMOST_GIPHY_TOKEN = os.environ.get('MATTERMOST_GIPHY_TOKEN', '').split(':')
