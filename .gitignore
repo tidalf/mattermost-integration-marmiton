@@ -1,2 +1,5 @@
 # Edit files
 *.swp
+#Byte-compile / optimized  files
+__pycache__/
+*.py[cod]

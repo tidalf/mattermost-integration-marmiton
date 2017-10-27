@@ -5,6 +5,8 @@ import sys
 import json
 from urlparse import urlsplit
 from urlparse import urlunsplit
+import re
+import random
 
 import requests
 from flask import Flask
@@ -60,7 +62,7 @@ def new_post():
         if not translate_text:
             raise Exception("No translate text provided, not hitting Giphy")
 
-        gif_url = giphy_translate(translate_text)
+        gif_url = translate(translate_text)
         if not gif_url:
             raise Exception('No gif url found for `{}`'.format(translate_text))
 
@@ -101,3 +103,35 @@ def giphy_translate(text):
     except Exception as err:
         logging.error('unable to translate giphy :: {}'.format(err))
         return None
+
+
+def translate(text):
+    """
+    Search for a #Command with format '#Command <text>'.  If there is one, process the command.  If not, search giphy
+    """
+    match = re.match(r'\#(\w+)\s+((?:\w|\s)+)', text, flags=0)
+    return giphy_translate(text) if match is None else process_command(match.group(1),match.group(2))
+
+
+def process_command(command, text):
+    """
+    Process a #Command and return the Giphy Url.  If command is not found, return giphy URL for command and text.
+    """
+    transforms = {
+      'magic8ball': lambda x: giphy_translate(random.choice(['Yes',
+                                                             'Absolutely',
+                                                             'Yep',
+                                                             'Hell Yeah',
+                                                             'Affirmative',
+                                                             'No',
+                                                             'Absolutely Not',
+                                                             'Nope',
+                                                             'Hell No',
+                                                             'Negative',
+                                                             'Dont Know',
+                                                             'Maybe',
+                                                             'Dunno',
+                                                             'Clueless',
+                                                             'Shrug']))
+    }
+    return transforms[command.lower()](text) if command.lower() in transforms else giphy_translate("#{} {}".format(command, text))
