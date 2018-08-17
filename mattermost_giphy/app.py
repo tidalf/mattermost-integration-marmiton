@@ -1,19 +1,23 @@
 # -*- coding: utf-8 -*-
-import logging
 import json
-from urlparse import urlsplit
-from urlparse import urlunsplit
-import re
+import logging
 import random
+import re
+
+try:
+    from urllib.parse import urlsplit
+    from urllib.parse import urlunsplit
+except ImportError:
+    from urlparse import urlsplit
+    from urlparse import urlunsplit
 
 import requests
 from flask import Flask
-from flask import request
 from flask import Response
+from flask import request
 
-from mattermost_giphy.settings import (
-        USERNAME, ICON_URL, RATING, SCHEME, GIPHY_API_KEY,
-        MATTERMOST_GIPHY_TOKEN)
+from mattermost_giphy.settings import USERNAME, ICON_URL, RATING, SCHEME, \
+    GIPHY_API_KEY, MATTERMOST_GIPHY_TOKEN
 
 
 logging.basicConfig(
