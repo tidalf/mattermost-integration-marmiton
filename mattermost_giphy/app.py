@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import os
-import sys
 import json
 from urlparse import urlsplit
 from urlparse import urlunsplit
@@ -13,7 +11,9 @@ from flask import Flask
 from flask import request
 from flask import Response
 
-from mattermost_giphy.settings import *
+from mattermost_giphy.settings import (
+        USERNAME, ICON_URL, RATING, SCHEME, GIPHY_API_KEY,
+        MATTERMOST_GIPHY_TOKEN)
 
 
 logging.basicConfig(
@@ -44,7 +44,7 @@ def new_post():
 
         data = request.form
 
-        if not 'token' in data:
+        if 'token' not in data:
             raise Exception('Missing necessary token in the post data')
 
         if data['token'] not in MATTERMOST_GIPHY_TOKEN:

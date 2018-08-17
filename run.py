@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import os
 import sys
 
 from mattermost_giphy.app import app
-from mattermost_giphy.settings import *
+from mattermost_giphy.settings import GIPHY_API_KEY, MATTERMOST_GIPHY_TOKEN
 
 
 if __name__ == "__main__":
