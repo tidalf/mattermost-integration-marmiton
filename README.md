@@ -1,9 +1,9 @@
-# Giphy Integration Service for Mattermost
-This integrations service is used to enable an external search engine ([Giphy](https://en.wikipedia.org/wiki/Giphy)) to be queried based on commands issued in a Mattermost channel using Mattermost [outgoing webhooks](https://github.com/mattermost/platform/blob/master/doc/integrations/webhooks/Outgoing-Webhooks.md). 
+# Marmiton Integration Service for Mattermost
+This integrations service is used to enable an external search engine ([Marmiton](https://en.wikipedia.org/wiki/Marmiton)) to be queried based on commands issued in a Mattermost channel using Mattermost [outgoing webhooks](https://github.com/mattermost/platform/blob/master/doc/integrations/webhooks/Outgoing-Webhooks.md). 
 
-Once installed, users can type `gif: keyword` to send a query to the Giphy search engine and return with a post containing one non-deterministic search result from the Giphy database of animated GIF files matching `keyword`. The animation will appear below in the posted message. 
+Once installed, users can type `gif: keyword` to send a query to the Marmiton search engine and return with a post containing one non-deterministic search result from the Marmiton database of recipes matching `keyword`. The recipe will appear below in the posted message. 
 
-Powered by [Giphy](http://giphy.com/).
+Powered by [Marmiton](http://www.marmiton.org/).
 
 ## Project Goal
 The goal of this project is to provide a fully-functional template on which the Mattermost community can create their own integration services. Community members are invited to fork this repo to add improvements and to create new integrations. 
