@@ -60,7 +60,7 @@ def new_post():
             slash_command = True
             resp_data['response_type'] = 'in_channel'
 
-        resp_data['text'] = Marmiton.search({'aqt': data['text']})
+        resp_data['text'] = Marmiton.uri(Marmiton.search({'aqt': data['text']})[0]['url'])
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
