@@ -2,8 +2,8 @@ FROM python:2.7-alpine
 
 MAINTAINER Kyâne PICHOU kyane@kyane.fr
 
-COPY . /mattermost-giphy
-WORKDIR /mattermost-giphy
+COPY . /mattermost-marmiton
+WORKDIR /mattermost-marmiton
 
 RUN python setup.py install
 

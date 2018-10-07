@@ -26,14 +26,14 @@ README = os.path.join(os.path.dirname(__file__), 'README.md')
 
 
 setup(
-    name='mattermost_giphy',
+    name='mattermost_marmiton',
     version=version(),
-    description="Giphy Integration Service for Mattermost.",
+    description="Marmiton Integration Service for Mattermost.",
     long_description=README,
     classifiers=[],
-    author='Lujeni',
-    author_email='julien.thebault@1000mercis.com',
-    url='https://github.com/numberly/mattermost-integration-giphy',
+    author='d@corp',
+    author_email='dakorp@ematome.com',
+    url='https://github.com/tidalf/mattermost-integration-marmiton',
     license='',
     packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     include_package_data=True,

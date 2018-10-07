@@ -13,39 +13,37 @@ Here's how to start:
  4. Install **pip** and other essentials
     - `sudo apt-get install python-pip python-dev build-essential`
  5. Clone this GitHub repo with
-    - `git clone https://github.com/numberly/mattermost-integration-giphy.git`
-    - `cd mattermost-integration-giphy`
+    - `git clone https://github.com/tidalf/mattermost-integration-marmiton.git`
+    - `cd mattermost-integration-marmiton`
  6. Install integration requirements
     - `sudo python setup.py install`
 
 2. **Set up your Mattermost slash command**
  1. Log in to your Mattermost account. Click the three dot menu at the top of the left-hand side and go to **Integrations** > **Slash Commands**
  2. Under *Add a new command*, enter `gif` into **Command Trigger Word**
- 3. Paste your Web Server domain into *Callback URLs*, making sure to add `http://` to the beginning and `/new_post` to the end so it looks similar to `http://<your-web-server-domain>:<MATTERMOST_GIPHY_PORT>/new_post` and click **Add**
+ 3. Paste your Web Server domain into *Callback URLs*, making sure to add `http://` to the beginning and `/new_post` to the end so it looks similar to `http://<your-web-server-domain>:<MATTERMOST_MARMITON_PORT>/new_post` and click **Add**
  4. Select `POST` method
  5. (optional) Choose a username and icon url (more details [here](https://docs.mattermost.com/developer/slash-commands.html#set-up-a-custom-command))
- 6. (optional) Check the autocomplete checkbox, add `[KEYWORD]` as the hint, `Returns a GIF from Giphy based on the keyword` as the description and `Get a GIF from Giphy` as the descriptive label
  7. Copy the *Token* from your newly created slash command that appears under the *Existing commands* section
 
 3. **Run the server with the correct configuration**
  1. Back on SSH or your terminal, add the following lines to your `~/.profile`
-    - `export MATTERMOST_GIPHY_TOKEN=<your-token-here>` This is the token you copied in the last section (you can specify multiple tokens which are separated by a colon)
-    - `export MATTERMOST_GIPHY_HOST=<your-host>` or `export HOST=<your-host>` The host you want the integration (defaults to 0.0.0.0)
-    - `export MATTERMOST_GIPHY_PORT=<your-port-number>` or `export PORT=<you-port-number>` The port number you want the integration to listen on (defaults to 5000)
+    - `export MATTERMOST_MARMITON_TOKEN=<your-token-here>` This is the token you copied in the last section (you can specify multiple tokens which are separated by a colon)
+    - `export MATTERMOST_MARMITON_HOST=<your-host>` or `export HOST=<your-host>` The host you want the integration (defaults to 0.0.0.0)
+    - `export MATTERMOST_MARMITON_PORT=<your-port-number>` or `export PORT=<you-port-number>` The port number you want the integration to listen on (defaults to 5000)
  2. Source your bash profile
     - `source ~/.profile`
  3. Run the server
     - `python run.py`
 
-That's it! You should be able to type `gif: hello` or `/gif hello` into any channel and see a GIF from Giphy's translate service.
+That's it! You should be able to type `marmiton: hello` or `/marmiton hello` into any channel and see your recipe
 
 
 ## Production setup
-If you'd like to use this integration in a production envrionment, it is strongly recommended that you get a production Giphy API key from [here](http://api.giphy.com/submit). Once you have that you can configure the integration to use it:
 
 1. Stop the process currently running the integration
 1. Add the following lines to your `~/.profile` or `~/.bashrc` 
-   - `export GIPHY_API_KEY=<your-api-key-here>` With your Giphy API key
+   - `export MARMITON_API_KEY=<your-api-key-here>` With your Marmiton API key
 2. Source your bash profile
    - `source ~/.profile` or `source ~/.bashrc`
 3. Run the server again

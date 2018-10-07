@@ -17,7 +17,7 @@ from flask import Response
 from flask import request
 
 from mattermost_marmiton.settings import USERNAME, ICON_URL, RATING, SCHEME, \
-    GIPHY_API_KEY, MATTERMOST_MARMITON_TOKEN
+    MARMITON_API_KEY, MATTERMOST_MARMITON_TOKEN
 
 
 logging.basicConfig(
@@ -51,7 +51,7 @@ def new_post():
         if 'token' not in data:
             raise Exception('Missing necessary token in the post data')
 
-        if data['token'] not in MATTERMOST_GIPHY_TOKEN:
+        if data['token'] not in MATTERMOST_MARMITON_TOKEN:
             raise Exception('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
 
         # NOTE: support the slash command
@@ -64,7 +64,7 @@ def new_post():
             translate_text = data['text'][len(data['trigger_word']):]
 
         if not translate_text:
-            raise Exception("No translate text provided, not hitting Giphy")
+            raise Exception("No translate text provided, not hitting Marmiton")
 
         gif_url = translate(translate_text)
         if not gif_url:
@@ -82,20 +82,20 @@ def new_post():
         return resp
 
 
-def giphy_translate(text):
+def marmiton_translate(text):
     """
-    Giphy translate method, uses the Giphy API to find an appropriate gif url
+    Marmiton translate method, uses the Marmiton API to find an appropriate gif url
     """
     try:
         params = {}
         params['s'] = text
         params['rating'] = RATING
-        params['api_key'] = GIPHY_API_KEY
+        params['api_key'] = MARMITON_API_KEY
 
-        resp = requests.get('{}://api.giphy.com/v1/gifs/translate'.format(SCHEME), params=params, verify=True)
+        resp = requests.get('{}://api.marmiton.com/v1/gifs/translate'.format(SCHEME), params=params, verify=True)
 
         if resp.status_code is not requests.codes.ok:
-            logging.error('Encountered error using Giphy API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json()))
+            logging.error('Encountered error using Marmiton API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json()))
             return None
 
         resp_data = resp.json()
@@ -105,24 +105,24 @@ def giphy_translate(text):
 
         return urlunsplit(url)
     except Exception as err:
-        logging.error('unable to translate giphy :: {}'.format(err))
+        logging.error('unable to translate marmiton :: {}'.format(err))
         return None
 
 
 def translate(text):
     """
-    Search for a #Command with format '#Command <text>'.  If there is one, process the command.  If not, search giphy
+    Search for a #Command with format '#Command <text>'.  If there is one, process the command.  If not, search marmiton
     """
     match = re.match(r'\#(\w+)\s+((?:\w|\s)+)', text, flags=0)
-    return giphy_translate(text) if match is None else process_command(match.group(1),match.group(2))
+    return marmiton_translate(text) if match is None else process_command(match.group(1),match.group(2))
 
 
 def process_command(command, text):
     """
-    Process a #Command and return the Giphy Url.  If command is not found, return giphy URL for command and text.
+    Process a #Command and return the Marmiton Url.  If command is not found, return marmiton URL for command and text.
     """
     transforms = {
-      'magic8ball': lambda x: giphy_translate(random.choice(['Yes',
+      'magic8ball': lambda x: marmiton_translate(random.choice(['Yes',
                                                              'Absolutely',
                                                              'Yep',
                                                              'Hell Yeah',
@@ -138,4 +138,4 @@ def process_command(command, text):
                                                              'Clueless',
                                                              'Shrug']))
     }
-    return transforms[command.lower()](text) if command.lower() in transforms else giphy_translate("#{} {}".format(command, text))
+    return transforms[command.lower()](text) if command.lower() in transforms else marmiton_translate("#{} {}".format(command, text))
