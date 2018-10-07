@@ -19,6 +19,7 @@ from flask import request
 from mattermost_marmiton.settings import USERNAME, ICON_URL, RATING, SCHEME, \
     MARMITON_API_KEY, MATTERMOST_MARMITON_TOKEN
 
+from mattermost_marmiton.marmiton import Marmiton
 
 logging.basicConfig(
     level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')
@@ -59,19 +60,7 @@ def new_post():
             slash_command = True
             resp_data['response_type'] = 'in_channel'
 
-        translate_text = data['text']
-        if not slash_command:
-            translate_text = data['text'][len(data['trigger_word']):]
-
-        if not translate_text:
-            raise Exception("No translate text provided, not hitting Marmiton")
-
-        gif_url = translate(translate_text)
-        if not gif_url:
-            raise Exception('No gif url found for `{}`'.format(translate_text))
-
-        resp_data['text'] = '''`{}` searched for {}
-    {}'''.format(data.get('user_name', 'unknown').title(), translate_text, gif_url)
+        resp_data['text'] = Marmiton.search(data['text'])
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
@@ -81,61 +70,3 @@ def new_post():
         resp.set_data(json.dumps(resp_data))
         return resp
 
-
-def marmiton_translate(text):
-    """
-    Marmiton translate method, uses the Marmiton API to find an appropriate gif url
-    """
-    try:
-        params = {}
-        params['s'] = text
-        params['rating'] = RATING
-        params['api_key'] = MARMITON_API_KEY
-
-        resp = requests.get('{}://api.marmiton.com/v1/gifs/translate'.format(SCHEME), params=params, verify=True)
-
-        if resp.status_code is not requests.codes.ok:
-            logging.error('Encountered error using Marmiton API, text=%s, status=%d, response_body=%s' % (text, resp.status_code, resp.json()))
-            return None
-
-        resp_data = resp.json()
-
-        url = list(urlsplit(resp_data['data']['images']['original']['url']))
-        url[0] = SCHEME.lower()
-
-        return urlunsplit(url)
-    except Exception as err:
-        logging.error('unable to translate marmiton :: {}'.format(err))
-        return None
-
-
-def translate(text):
-    """
-    Search for a #Command with format '#Command <text>'.  If there is one, process the command.  If not, search marmiton
-    """
-    match = re.match(r'\#(\w+)\s+((?:\w|\s)+)', text, flags=0)
-    return marmiton_translate(text) if match is None else process_command(match.group(1),match.group(2))
-
-
-def process_command(command, text):
-    """
-    Process a #Command and return the Marmiton Url.  If command is not found, return marmiton URL for command and text.
-    """
-    transforms = {
-      'magic8ball': lambda x: marmiton_translate(random.choice(['Yes',
-                                                             'Absolutely',
-                                                             'Yep',
-                                                             'Hell Yeah',
-                                                             'Affirmative',
-                                                             'No',
-                                                             'Absolutely Not',
-                                                             'Nope',
-                                                             'Hell No',
-                                                             'Negative',
-                                                             'Dont Know',
-                                                             'Maybe',
-                                                             'Dunno',
-                                                             'Clueless',
-                                                             'Shrug']))
-    }
-    return transforms[command.lower()](text) if command.lower() in transforms else marmiton_translate("#{} {}".format(command, text))
