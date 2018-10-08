@@ -11,7 +11,5 @@ To run this integration you need:
 1. A **web server** supporting Python 3.5 or compatible versions.
 2. A **[Mattermost account](http://www.mattermost.org/)** [where outgoing webhooks are enabled](https://github.com/mattermost/platform/blob/master/doc/integrations/webhooks/Outgoing-Webhooks.md#enabling-outgoing-webhooks)
 
-Many web server options will work, below we provide instructions for [**Heroku**](HEROKU.md) and a general [**Linux/Ubuntu**](LINUX.md) server.
-
 ### Docker install
 [**Here**](DOCKER.md)
