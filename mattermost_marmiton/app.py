@@ -62,7 +62,7 @@ def new_post():
             resp_data['response_type'] = 'in_channel'
 
         resp_data['text'] = json.dumps(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
-        print('%s'.format(resp_data['text']))
+        print('{}'.format(resp_data['text']))
 
     except Exception as err:
         msg = err.message
