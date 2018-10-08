@@ -5,7 +5,7 @@ import os
 USERNAME = os.environ.get('USERNAME', 'marmiton')
 
 # display picture the bot posts with
-ICON_URL = os.environ.get('ICON_URL', 'https://avatars0.githubusercontent.com/u/3588525?v=3&s=200')
+ICON_URL = os.environ.get('ICON_URL', 'https://www.easyicon.net/download/png/551391/64/')
 
 # the maximum parental rating of gifs posted
 RATING = os.environ.get('RATING', 'pg')
