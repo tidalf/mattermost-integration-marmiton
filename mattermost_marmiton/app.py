@@ -52,7 +52,7 @@ def new_post():
         if 'token' not in data:
             raise Exception('Missing necessary token in the post data')
         # disable token handling
-        # !! 
+        # !!
         #if data['token'] not in MATTERMOST_MARMITON_TOKEN:
         #    raise Exception('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
 
@@ -62,6 +62,7 @@ def new_post():
             resp_data['response_type'] = 'in_channel'
 
         resp_data['text'] = json.dumps(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
+
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
