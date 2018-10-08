@@ -3,6 +3,7 @@ import json
 import logging
 import random
 import re
+from jinja2 import Template
 
 try:
     from urllib.parse import urlsplit
@@ -14,7 +15,7 @@ except ImportError:
 import requests
 from flask import Flask
 from flask import Response
-from flask import request
+from flask import request, render_template
 
 from mattermost_marmiton.settings import USERNAME, ICON_URL, RATING, SCHEME, \
     MARMITON_API_KEY, MATTERMOST_MARMITON_TOKEN
@@ -61,7 +62,8 @@ def new_post():
             slash_command = True
             resp_data['response_type'] = 'in_channel'
 
-        resp_data['text'] = json.dumps(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
+        tpl = Template(filename='recipe.tpl')
+        resp_data['text'] = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
         print('{}'.format(resp_data['text']))
 
     except Exception as err:
