@@ -1,1 +1,5 @@
-<title>{% block name %}{% endblock %}</title>
+# {% name %}
+
+## Ingredients
+{% for ingredient in ingredients %}
+- {{ ingredient }}
