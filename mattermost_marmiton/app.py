@@ -63,8 +63,9 @@ def new_post():
             resp_data['response_type'] = 'in_channel'
 
         tpl = Template(filename='recipe.tpl')
-        resp_data['text'] = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
-        logging.log('{}'.format(resp_data['text']))
+        out = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
+        logging.log('{}'.format(out))
+        resp_data['text'] = 'out: {}'.format(out)
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
