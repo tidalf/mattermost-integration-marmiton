@@ -2,8 +2,10 @@
 
 from bs4 import BeautifulSoup
 
-import urllib.parse
-import urllib.request
+
+from urllib import urlencode
+from urllib2 import urlopen
+
 
 import re
 
@@ -24,15 +26,15 @@ class Marmiton(object):
 		'sort': "markdesc" (rate) | "popularitydesc" (popularity) | "" (empty for relevance)
 		"""
 		base_url = "https://www.marmiton.org/recettes/recherche.aspx?"
-		query_url = urllib.parse.urlencode(query_dict)
+		query_url = urlencode(query_dict)
 
 		url = base_url + query_url
 
-		html_content = urllib.request.urlopen(url).read()
+		html_content = urlopen(url).read()
 		soup = BeautifulSoup(html_content, 'html.parser')
 
 		search_data = []
-                
+
 		articles = soup.findAll("a", {"class": "recipe-card-link"})
 
 		iterarticles = iter(articles)
@@ -63,7 +65,7 @@ class Marmiton(object):
 		base_url = "http://www.marmiton.org/"
 		url = base_url + uri
 
-		html_content = urllib.request.urlopen(url).read()
+		html_content = urlopen(url).read()
 		soup = BeautifulSoup(html_content, 'html.parser')
 
 
