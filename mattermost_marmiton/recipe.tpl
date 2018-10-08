@@ -1,1 +1,1 @@
-title>{% block name %}{% endblock %}</title>
+<title>{% block name %}{% endblock %}</title>
