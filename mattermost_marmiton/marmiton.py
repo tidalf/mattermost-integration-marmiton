@@ -3,8 +3,8 @@
 from bs4 import BeautifulSoup
 
 
-from urllib import urlencode
-from urllib2 import urlopen
+import urllib.parse
+import urllib.request
 
 
 import re
@@ -26,11 +26,11 @@ class Marmiton(object):
 		'sort': "markdesc" (rate) | "popularitydesc" (popularity) | "" (empty for relevance)
 		"""
 		base_url = "https://www.marmiton.org/recettes/recherche.aspx?"
-		query_url = urlencode(query_dict)
+		query_url = urllib.parse.urlencode(query_dict)
 
 		url = base_url + query_url
 
-		html_content = urlopen(url).read()
+		html_content = urllib.request.urlopen(url).read()
 		soup = BeautifulSoup(html_content, 'html.parser')
 
 		search_data = []
@@ -65,7 +65,7 @@ class Marmiton(object):
 		base_url = "http://www.marmiton.org/"
 		url = base_url + uri
 
-		html_content = urlopen(url).read()
+		html_content = urllib.request.urlopen(url).read()
 		soup = BeautifulSoup(html_content, 'html.parser')
 
 
