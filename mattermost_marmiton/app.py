@@ -4,6 +4,7 @@ import logging
 import random
 import re
 from jinja2 import Template
+import codecs
 
 try:
     from urllib.parse import urlsplit
@@ -62,10 +63,13 @@ def new_post():
             slash_command = True
             resp_data['response_type'] = 'in_channel'
 
-        tpl = Template(filename='recipe.tpl')
+        tpl_string = ''
+        with codecs.open('recipe.tpl', encoding='utf8') as fh:
+            tpl_string = fh.read()
+        tpl = Template(tpl_string)
         out = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
         logging.log('{}'.format(out))
-        resp_data['text'] = 'out: {}'.format(out)
+        resp_data['text'] = out
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
