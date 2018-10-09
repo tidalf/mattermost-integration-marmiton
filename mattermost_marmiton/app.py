@@ -69,7 +69,7 @@ def new_post():
         tpl = Template(tpl_string)
         out = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
         logging.log('{}'.format(out))
-        resp_data['text'] = out
+        resp_data['text'] = 'pffff {}'.format(out)
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))
