@@ -5,6 +5,7 @@ import random
 import re
 from jinja2 import Template
 import codecs
+import os
 
 try:
     from urllib.parse import urlsplit
@@ -24,9 +25,18 @@ from mattermost_marmiton.settings import USERNAME, ICON_URL, RATING, SCHEME, \
 from mattermost_marmiton.marmiton import Marmiton
 
 logging.basicConfig(
-    level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')
+    level=logging.DEBUG, format='[%(asctime)s] [%(levelname)s] %(message)s')
+
 app = Flask(__name__)
 
+def load_template():
+    base_path = os.path.dirname(__file__)
+    tpl_path = os.path.join(base_path, 'recipe.tpl')
+    logging.debug(tpl_path)
+    with codecs.open(tpl_path, encoding='utf8') as fh:
+        return Template(fh.read())
+
+recipe_tpl = load_template()
 
 @app.route('/')
 def root():
@@ -63,13 +73,8 @@ def new_post():
             slash_command = True
             resp_data['response_type'] = 'in_channel'
 
-        tpl_string = ''
-        with codecs.open('recipe.tpl', encoding='utf8') as fh:
-            tpl_string = fh.read()
-        tpl = Template(tpl_string)
-        out = tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
-        logging.log('{}'.format(out))
-        resp_data['text'] = 'pffff {}'.format(out)
+        resp_data['text'] = recipe_tpl.render(Marmiton.get(Marmiton.search({'aqt': data['text']})[0]['url']))
+
     except Exception as err:
         msg = err.message
         logging.error('unable to handle new post :: {}'.format(msg))

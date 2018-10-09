@@ -62,7 +62,7 @@ class Marmiton(object):
 		'url' from 'search' method.
 		 ex. "/recettes/recette_wraps-de-poulet-et-sauce-au-curry_337319.aspx"
 		"""
-		base_url = "http://www.marmiton.org/"
+		base_url = "https://www.marmiton.org"
 		url = base_url + uri
 
 		html_content = urllib.request.urlopen(url).read()
@@ -100,6 +100,8 @@ class Marmiton(object):
 				"name": name,
 				"image": image if image else "",
 				"prep_time": prep_time,
-				"cook_time": cook_time}
+				"cook_time": cook_time,
+                "recipe_url": url
+        }
 
 		return data
