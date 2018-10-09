@@ -63,10 +63,9 @@ def new_post():
 
         if 'token' not in data:
             raise Exception('Missing necessary token in the post data')
-        # disable token handling
-        # !!
-        #if data['token'] not in MATTERMOST_MARMITON_TOKEN:
-        #    raise Exception('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
+
+        if data['token'] not in MATTERMOST_MARMITON_TOKEN:
+            raise Exception('Tokens did not match, it is possible that this request came from somewhere other than Mattermost')
 
         # NOTE: support the slash command
         if 'command' in data:
